@@ -43,8 +43,8 @@ const Home = ({ initialUsers }) => {
 
   return (
     <Box
-      h="100%"
-      w="100%"
+      h="100vh"
+      w="100vw"
       bgGradient="linear(to-r, gray.700, purple.900)"
     >
       <Center flexDir="column">

@@ -29,7 +29,7 @@ export default async (req, res) => {
             const extension = path.extname(file.path);
             const randomName = crypto.randomBytes(16).toString('hex');
             file.name = randomName + extension;
-            fs.writeFileSync(`public/profile/${file.name}`, data);
+            fs.writeFileSync(`public/static/${file.name}`, data);
             fs.unlinkSync(file.path);
             files.push({name, file});
         })
@@ -52,7 +52,7 @@ export default async (req, res) => {
                 identity: data.fields.identity,
                 birthday: new Date(data.fields.birthday),
                 email: data.fields.email,
-                avatar: data.files.avatar ? '/profile/' + data.files.avatar.name : ""
+                avatar: data.files.avatar ? '/static/' + data.files.avatar.name : ""
             }
         });
 
@@ -74,11 +74,13 @@ export default async (req, res) => {
                 text: "Bienvenido",
                 html: `<div style="margin: 4rem; background-color: LightGray; text-align: center; height: 500px">
                 <div style="">
-                  <h1>Bienvenido/a a ApolloAcademy</h1>
+                  <h1>Bienvenido/a a Ing Soft</h1>
                   <div style="background-color: white; margin: 0 4rem 4rem 4rem; height:400px">
                     <div style="padding-top: 4rem">
-                      <h2> ${user.name} te damos la bienvenida a Apollo Academy</h2>
-                      <p>Para ingresar a nuestra aplicación puedes ingresar en el siguiente enlace: <a href="https://localhost" target="_blank">Apollo Academy</a></p>
+                      <img src="http://18.189.235.128/${user.avatar}" style="align-self:center;"/>
+                      <h2> ${user.first_name} ${user.last_name} te damos la bienvenida</h2>
+                      <p> Esta es una aplicación de prueba para la clase de Ing Soft </p>
+                      <p>Para ingresar a nuestra aplicación puedes ingresar en el siguiente enlace: <a href="http://18.189.235.128/" target="_blank">Ing Soft</a></p>
                     </div>
                     <div style="display: flex; margin: 4rem 10rem 0 10rem">
                       
@@ -96,7 +98,7 @@ export default async (req, res) => {
     } catch (err) {
         console.log(err);
         files.forEach(element => {
-            fs.unlinkSync(`public/profile/${element.file.name}`);
+            fs.unlinkSync(`public/static/${element.file.name}`);
         })
         res.status(200).json({ error: "Correo o identidad ya ingresado" });
     }
